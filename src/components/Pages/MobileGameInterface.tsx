@@ -639,6 +639,17 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
 
       {/* Game Area */}
       <div className="relative h-[60vh] overflow-hidden pixel-game-container">
+        {/* Room Name - Top Center */}
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30">
+          <div className={`px-4 py-2 rounded-xl backdrop-blur-sm border transition-all duration-300 shadow-lg ${
+            isDark 
+              ? 'bg-slate-900/90 border-slate-700 text-white' 
+              : 'bg-white/95 border-emerald-300/60 text-emerald-900 shadow-emerald-500/10'
+          }`}>
+            <span className="text-lg font-bold">{getRoomName(gameState.currentRoom)}</span>
+          </div>
+        </div>
+
         {/* Left Arrow - Previous Room */}
         <div className="absolute left-2 top-1/2 transform -translate-y-1/2 z-30">
           <button
@@ -825,17 +836,6 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
           ? 'bg-slate-900/50 border-slate-800' 
           : 'bg-emerald-50/50 border-emerald-200/50'
       }`}>
-        {/* Room indicator with current room highlighted */}
-        <div className="text-center mb-3">
-          <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors duration-300 ${
-            isDark 
-              ? 'bg-slate-800 text-slate-300' 
-              : 'bg-emerald-100/80 text-emerald-700'
-          }`}>
-            <span>{getRoomName(gameState.currentRoom)}</span>
-          </div>
-        </div>
-        
         <div className="grid grid-cols-5 gap-2">
           {[
             { id: 'bedroom', label: '🛏️ Quarto', emoji: '🛏️' },
