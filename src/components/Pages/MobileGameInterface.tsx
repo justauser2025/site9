@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Volume2, VolumeX, Play, Pause, RotateCcw, Save, Calendar, Trophy, Clock, User, Gamepad2, Zap, FileX2 as X2, AArrowDown as X4 } from 'lucide-react';
+import { ArrowLeft, Volume2, VolumeX, Play, Pause, RotateCcw, Save, Calendar, Trophy, Clock, User, Gamepad2, Zap, FileX2 as X2, AArrowDown as X4, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { useGameAudio } from '../../hooks/useGameAudio';
 
@@ -175,6 +175,19 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
   const changeRoom = (room: GameState['currentRoom']) => {
     playNavigationSound();
     setGameState(prev => ({ ...prev, currentRoom: room }));
+  };
+
+  const rooms: GameState['currentRoom'][] = ['bedroom', 'living', 'kitchen', 'gym', 'bathroom'];
+  const currentRoomIndex = rooms.indexOf(gameState.currentRoom);
+  
+  const goToPreviousRoom = () => {
+    const previousIndex = currentRoomIndex === 0 ? rooms.length - 1 : currentRoomIndex - 1;
+    changeRoom(rooms[previousIndex]);
+  };
+  
+  const goToNextRoom = () => {
+    const nextIndex = currentRoomIndex === rooms.length - 1 ? 0 : currentRoomIndex + 1;
+    changeRoom(rooms[nextIndex]);
   };
 
   const performAction = (action: string, object: string) => {
@@ -615,6 +628,36 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
 
       {/* Game Area */}
       <div className="relative h-[60vh] overflow-hidden pixel-game-container">
+        {/* Left Arrow - Previous Room */}
+        <div className="absolute left-2 top-1/2 transform -translate-y-1/2 z-30">
+          <button
+            onClick={goToPreviousRoom}
+            className={`p-3 rounded-full backdrop-blur-sm border-2 transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg ${
+              isDark 
+                ? 'bg-slate-800/80 border-slate-600 hover:bg-slate-700/90 text-white hover:border-slate-500' 
+                : 'bg-white/90 border-emerald-300 hover:bg-emerald-50/90 text-emerald-700 hover:border-emerald-400'
+            }`}
+            title="Cômodo anterior"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* Right Arrow - Next Room */}
+        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-30">
+          <button
+            onClick={goToNextRoom}
+            className={`p-3 rounded-full backdrop-blur-sm border-2 transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg ${
+              isDark 
+                ? 'bg-slate-800/80 border-slate-600 hover:bg-slate-700/90 text-white hover:border-slate-500' 
+                : 'bg-white/90 border-emerald-300 hover:bg-emerald-50/90 text-emerald-700 hover:border-emerald-400'
+            }`}
+            title="Próximo cômodo"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+
         <div className={`pixel-room room-${gameState.currentRoom} h-full relative`}>
           {/* Room Background */}
           <div className={`pixel-room-bg room-bg-${gameState.currentRoom} absolute inset-0`} />
@@ -771,6 +814,17 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
           ? 'bg-slate-900/50 border-slate-800' 
           : 'bg-emerald-50/50 border-emerald-200/50'
       }`}>
+        {/* Room indicator with current room highlighted */}
+        <div className="text-center mb-3">
+          <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors duration-300 ${
+            isDark 
+              ? 'bg-slate-800 text-slate-300' 
+              : 'bg-emerald-100/80 text-emerald-700'
+          }`}>
+            <span>Cômodo {currentRoomIndex + 1} de {rooms.length}</span>
+          </div>
+        </div>
+        
         <div className="grid grid-cols-5 gap-2">
           {[
             { id: 'bedroom', label: '🛏️ Quarto', emoji: '🛏️' },
