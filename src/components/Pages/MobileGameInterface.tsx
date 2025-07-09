@@ -387,20 +387,6 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
               }`}>
                 Alex
               </span>
-              
-              {/* Horário do tempo do jogo */}
-              <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
-                isDark 
-                  ? 'bg-slate-800/50 text-white' 
-                  : 'bg-emerald-100/80 text-emerald-900'
-              }`}>
-                <Clock className="w-3 h-3 text-emerald-400" />
-                <span className={`text-xs font-medium transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-emerald-900'
-                }`}>
-                  {formatGameTime(gameState.hour, gameState.minute)}
-                </span>
-              </div>
             </div>
             
             {/* Lado direito: Controles */}
@@ -469,18 +455,35 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
           
           {/* Segunda linha: Dia da semana, Pontuação, Velocidade do tempo, Botão voltar */}
           <div className="flex items-center justify-between">
-            {/* Lado esquerdo: Dia da semana */}
-            <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
-              isDark 
-                ? 'bg-slate-800/50 text-white' 
-                : 'bg-emerald-100/80 text-emerald-900'
-            }`}>
-              <Calendar className="w-3 h-3 text-emerald-400" />
-              <span className={`text-xs font-medium transition-colors duration-300 ${
-                isDark ? 'text-white' : 'text-emerald-900'
+            {/* Lado esquerdo: Horário do jogo e Dia da semana */}
+            <div className="flex items-center gap-2">
+              {/* Horário do tempo do jogo */}
+              <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
+                isDark 
+                  ? 'bg-slate-800/50 text-white' 
+                  : 'bg-emerald-100/80 text-emerald-900'
               }`}>
-                {getDayOfWeek(gameState.day)}
-              </span>
+                <Clock className="w-3 h-3 text-emerald-400" />
+                <span className={`text-xs font-medium transition-colors duration-300 ${
+                  isDark ? 'text-white' : 'text-emerald-900'
+                }`}>
+                  {formatGameTime(gameState.hour, gameState.minute)}
+                </span>
+              </div>
+              
+              {/* Dia da semana */}
+              <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
+                isDark 
+                  ? 'bg-slate-800/50 text-white' 
+                  : 'bg-emerald-100/80 text-emerald-900'
+              }`}>
+                <Calendar className="w-3 h-3 text-emerald-400" />
+                <span className={`text-xs font-medium transition-colors duration-300 ${
+                  isDark ? 'text-white' : 'text-emerald-900'
+                }`}>
+                  {getDayOfWeek(gameState.day)}
+                </span>
+              </div>
             </div>
             
             {/* Centro: Pontuação geral total */}
