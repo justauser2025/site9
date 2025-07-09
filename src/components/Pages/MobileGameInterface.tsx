@@ -190,6 +190,17 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
     changeRoom(rooms[nextIndex]);
   };
 
+  const getRoomName = (room: GameState['currentRoom']): string => {
+    const roomNames = {
+      bedroom: 'Quarto',
+      living: 'Sala',
+      kitchen: 'Cozinha',
+      gym: 'Academia',
+      bathroom: 'Banheiro'
+    };
+    return roomNames[room];
+  };
+
   const performAction = (action: string, object: string) => {
     playConsequenceSound('success');
     
@@ -821,7 +832,7 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
               ? 'bg-slate-800 text-slate-300' 
               : 'bg-emerald-100/80 text-emerald-700'
           }`}>
-            <span>Cômodo {currentRoomIndex + 1} de {rooms.length}</span>
+            <span>{getRoomName(gameState.currentRoom)}</span>
           </div>
         </div>
         
