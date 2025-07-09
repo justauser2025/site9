@@ -371,213 +371,27 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
           ? 'bg-slate-900/95 border-slate-800' 
           : 'bg-white/95 border-emerald-200/50'
       }`}>
-        <div className="px-4 py-2">
-          {/* Primeira linha: Foto, Nome, Horário, Dia, Play/Pause, Mute, Save, Reset */}
-          <div className="flex items-center justify-between mb-2">
-            {/* Lado esquerdo: Foto de perfil + Nome + Horário */}
-            <div className="flex items-center gap-2">
-              {/* Foto de perfil do Alex */}
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center border-2 border-emerald-400/30 shadow-md">
-                <span className="text-lg">👨‍💼</span>
-              </div>
-              
-              {/* Nome Alex */}
-              <span className={`text-xs font-bold transition-colors duration-300 ${
-                isDark ? 'text-white' : 'text-emerald-900'
-              }`}>
-                Alex
-              </span>
-              
-              {/* Stat de humor */}
-              <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
+        <div className="px-4 py-3">
+          {/* Header simplificado: apenas botão voltar */}
+          <div className="flex items-center justify-center relative">
+            {/* Botão de voltar - posição absoluta no canto esquerdo */}
+            <button
+              onClick={onBack}
+              className={`absolute left-0 p-2 rounded-full transition-all duration-200 hover:scale-110 ${
                 isDark 
-                  ? 'bg-slate-800/50 text-white' 
-                  : 'bg-emerald-100/80 text-emerald-900'
-              }`}>
-                <span className="text-xs">
-                  {gameState.character.mood === 'happy' && '😊'}
-                  {gameState.character.mood === 'tired' && '😴'}
-                  {gameState.character.mood === 'energetic' && '⚡'}
-                  {gameState.character.mood === 'relaxed' && '😌'}
-                  {gameState.character.mood === 'stressed' && '😰'}
-                </span>
-                <span className={`text-xs font-medium transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-emerald-900'
-                }`}>
-                  {gameState.character.mood === 'happy' && 'Feliz'}
-                  {gameState.character.mood === 'tired' && 'Cansado'}
-                  {gameState.character.mood === 'energetic' && 'Energético'}
-                  {gameState.character.mood === 'relaxed' && 'Relaxado'}
-                  {gameState.character.mood === 'stressed' && 'Estressado'}
-                </span>
-              </div>
-            </div>
+                  ? 'hover:bg-slate-800 text-white' 
+                  : 'hover:bg-emerald-100 text-emerald-900'
+              }`}
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
             
-            {/* Lado direito: Controles */}
-            <div className="flex items-center gap-2">
-              {/* Botão Play/Pause */}
-              <button
-                onClick={togglePlayPause}
-                className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
-                  gameState.isPlaying 
-                    ? 'bg-emerald-500/20 text-emerald-400' 
-                    : 'bg-gray-500/20 text-gray-400'
-                } ${
-                  isDark 
-                    ? 'hover:bg-slate-800' 
-                    : 'hover:bg-emerald-100'
-                }`}
-              >
-                {gameState.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-              </button>
-              
-              {/* Botão Mute */}
-              <button
-                onClick={toggleMute}
-                className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
-                  audioSettings.isMuted 
-                    ? 'bg-red-500/20 text-red-400' 
-                    : 'bg-blue-500/20 text-blue-400'
-                } ${
-                  isDark 
-                    ? 'hover:bg-slate-800' 
-                    : 'hover:bg-emerald-100'
-                }`}
-              >
-                {audioSettings.isMuted ? (
-                  <VolumeX className="w-4 h-4" />
-                ) : (
-                  <Volume2 className="w-4 h-4" />
-                )}
-              </button>
-              
-              {/* Botão Save */}
-              <button
-                onClick={saveGame}
-                className={`save-button p-2 rounded-full transition-all duration-200 hover:scale-110 bg-green-500/20 text-green-400 ${
-                  isDark 
-                    ? 'hover:bg-slate-800' 
-                    : 'hover:bg-emerald-100'
-                }`}
-              >
-                <Save className="w-4 h-4" />
-              </button>
-              
-              {/* Botão Reset */}
-              <button
-                onClick={resetGame}
-                className={`p-2 rounded-full transition-all duration-200 hover:scale-110 bg-red-500/20 text-red-400 ${
-                  isDark 
-                    ? 'hover:bg-slate-800' 
-                    : 'hover:bg-emerald-100'
-                }`}
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-          
-          {/* Segunda linha: Dia da semana, Pontuação, Velocidade do tempo, Botão voltar */}
-          <div className="flex items-center justify-between">
-            {/* Lado esquerdo: Dia da semana e Horário do jogo (invertidos) */}
-            <div className="flex items-center gap-2">
-              {/* Dia da semana */}
-              <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
-                isDark 
-                  ? 'bg-slate-800/50 text-white' 
-                  : 'bg-emerald-100/80 text-emerald-900'
-              }`}>
-                <Calendar className="w-3 h-3 text-emerald-400" />
-                <span className={`text-xs font-medium transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-emerald-900'
-                }`}>
-                  {getDayOfWeek(gameState.day)}
-                </span>
-              </div>
-              
-              {/* Horário do tempo do jogo */}
-              <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors duration-300 ${
-                isDark 
-                  ? 'bg-slate-800/50 text-white' 
-                  : 'bg-emerald-100/80 text-emerald-900'
-              }`}>
-                <Clock className="w-3 h-3 text-emerald-400" />
-                <span className={`text-xs font-medium transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-emerald-900'
-                }`}>
-                  {formatGameTime(gameState.hour, gameState.minute)}
-                </span>
-              </div>
-            </div>
-            
-            {/* Centro: Pontuação geral total */}
-            <div className={`flex items-center gap-1 px-3 py-1 rounded-full transition-colors duration-300 ${
-              isDark 
-                ? 'bg-emerald-500/20 text-emerald-400' 
-                : 'bg-emerald-500/20 text-emerald-600'
+            {/* Título centralizado */}
+            <h1 className={`text-lg font-bold transition-colors duration-300 ${
+              isDark ? 'text-white' : 'text-emerald-900'
             }`}>
-              <Trophy className="w-3 h-3 text-emerald-400" />
-              <span className={`text-xs font-bold transition-colors duration-300 ${
-                isDark ? 'text-emerald-400' : 'text-emerald-600'
-              }`}>
-                {gameState.totalScore} pts
-              </span>
-            </div>
-            
-            {/* Lado direito: Controles de velocidade + Botão voltar */}
-            <div className="flex items-center gap-2">
-              {/* Controles de velocidade */}
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => changeGameSpeed(1)}
-                  className={`px-2 py-1 rounded-md text-xs font-bold transition-all duration-200 ${
-                    gameState.gameSpeed === 1
-                      ? 'bg-emerald-500 text-white shadow-md'
-                      : isDark
-                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        : 'bg-white text-emerald-700 hover:bg-emerald-100 border border-emerald-200/50'
-                  }`}
-                >
-                  1x
-                </button>
-                <button
-                  onClick={() => changeGameSpeed(2)}
-                  className={`px-2 py-1 rounded-md text-xs font-bold transition-all duration-200 ${
-                    gameState.gameSpeed === 2
-                      ? 'bg-emerald-500 text-white shadow-md'
-                      : isDark
-                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        : 'bg-white text-emerald-700 hover:bg-emerald-100 border border-emerald-200/50'
-                  }`}
-                >
-                  2x
-                </button>
-                <button
-                  onClick={() => changeGameSpeed(4)}
-                  className={`px-2 py-1 rounded-md text-xs font-bold transition-all duration-200 ${
-                    gameState.gameSpeed === 4
-                      ? 'bg-emerald-500 text-white shadow-md'
-                      : isDark
-                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        : 'bg-white text-emerald-700 hover:bg-emerald-100 border border-emerald-200/50'
-                  }`}
-                >
-                  4x
-                </button>
-              </div>
-              
-              {/* Botão de voltar */}
-              <button
-                onClick={onBack}
-                className={`p-1.5 rounded-full transition-all duration-200 hover:scale-110 ${
-                  isDark 
-                    ? 'hover:bg-slate-800 text-white' 
-                    : 'hover:bg-emerald-100 text-emerald-900'
-                }`}
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </button>
-            </div>
+              Dream Story
+            </h1>
           </div>
         </div>
       </header>
@@ -665,7 +479,7 @@ const MobileGameInterface: React.FC<MobileGameInterfaceProps> = ({ onBack }) => 
       </div>
 
       {/* Game Area */}
-      <div className="relative h-[60vh] overflow-hidden pixel-game-container">
+      <div className="relative h-[75vh] overflow-hidden pixel-game-container">
         {/* Room Name - Top Center */}
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30">
           <div className={`px-4 py-2 rounded-xl backdrop-blur-sm border transition-all duration-300 shadow-lg ${
